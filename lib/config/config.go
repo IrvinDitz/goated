@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"runtime"
+	"strings"
 )
 
 type config_s struct {
@@ -15,19 +16,19 @@ type config_s struct {
 	Log        string
 	Address    *types.FidoAddr
 	Origin     string
+	Template   string
+	Chrs       string
 }
 
+//go:generate go run ../../util/autoversion/main.go
 var (
-	Config  config_s
-	Version string
-	PID     string
-	LongPID string
+	Config   config_s
+	PID      = "ATED+" + runtime.GOOS[0:3] + " " + Version
+	LongPID  = "goAtEd-" + runtime.GOOS + "/" + runtime.GOARCH + " " + Version
+	Template []string
 )
 
 func Read() error {
-	Version = "0.0.1"
-	PID = "ATED+" + runtime.GOOS[0:3] + " " + Version
-	LongPID = "goAtEd " + runtime.GOOS + "/" + runtime.GOARCH + "-" + Version
 	yamlFile, err := ioutil.ReadFile(os.Args[1])
 	if err != nil {
 		return err
@@ -37,7 +38,20 @@ func Read() error {
 		return err
 	}
 	if Config.Address == nil {
-		return errors.New("Address not defined")
+		return errors.New("Config.Address not defined")
+	}
+	if Config.Chrs == "" {
+		return errors.New("Config.Chrs not defined")
+	}
+	tpl, err := ioutil.ReadFile(Config.Template)
+	if err != nil {
+		return err
+	}
+	for _, l := range strings.Split(string(tpl[:]), "\n") {
+		if len(l) > 0 && l[0] == ';' {
+			continue
+		}
+		Template = append(Template, l)
 	}
 	return nil
 }

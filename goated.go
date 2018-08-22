@@ -7,7 +7,7 @@ import (
 	"github.com/askovpen/goated/lib/config"
 	"github.com/askovpen/goated/lib/fidoconfig"
 	"github.com/askovpen/goated/lib/ui"
-	"github.com/jroimartin/gocui"
+	"github.com/askovpen/gocui"
 	"log"
 	"os"
 	//  "github.com/nsf/termbox-go"
@@ -18,6 +18,7 @@ import (
 //var clock *time.Ticker
 
 func main() {
+	log.Printf("%s started", config.LongPID)
 	if len(os.Args) == 1 {
 		log.Printf("Usage: %s <config.yml>", os.Args[0])
 		return
@@ -28,7 +29,6 @@ func main() {
 		log.Print(err)
 		return
 	}
-	log.Printf("%s started", config.LongPID)
 	f, _ := os.OpenFile(config.Config.Log, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	defer f.Close()
 	log.SetOutput(f)

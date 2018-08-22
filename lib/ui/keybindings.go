@@ -3,7 +3,7 @@ package ui
 import (
 	//  "fmt"
 	//  "github.com/askovpen/goated/lib/msgapi"
-	"github.com/jroimartin/gocui"
+	"github.com/askovpen/gocui"
 	//  "strconv"
 	//  "log"
 )
@@ -30,6 +30,9 @@ func Keybindings(g *gocui.Gui) error {
 	g.SetKeybinding("MsgBody", gocui.KeyCtrlK, gocui.ModNone, toggleKludges)
 	g.SetKeybinding("MsgBody", gocui.KeyCtrlG, gocui.ModNone, editMsgNum)
 	g.SetKeybinding("MsgBody", gocui.KeyInsert, gocui.ModNone, editMsg)
+	g.SetKeybinding("MsgBody", gocui.KeyCtrlQ, gocui.ModNone, answerMsg)
+	g.SetKeybinding("MsgBody", gocui.KeyF3, gocui.ModNone, answerMsg)
+	g.SetKeybinding("MsgBody", 'q', gocui.ModAlt, answerMsg)
 
 	g.SetKeybinding("editToName", gocui.KeyEnter, gocui.ModNone, editToNameNext)
 	g.SetKeybinding("editToName", gocui.KeyTab, gocui.ModNone, editToNameNext)
@@ -43,7 +46,10 @@ func Keybindings(g *gocui.Gui) error {
 	g.SetKeybinding("editFromAddr", gocui.KeyTab, gocui.ModNone, editFromAddrNext)
 	g.SetKeybinding("editMsgBody", gocui.KeyCtrlS, gocui.ModNone, editMsgBodyMenu)
 	g.SetKeybinding("editMsgBody", gocui.KeyF2, gocui.ModNone, editMsgBodyMenu)
+	g.SetKeybinding("editMsgBody", gocui.KeyEsc, gocui.ModNone, editMsgBodyMenu)
 	g.SetKeybinding("editMenuMsg", gocui.KeyEnter, gocui.ModNone, saveMessage)
+	g.SetKeybinding("editMenuMsg", gocui.KeyArrowUp, gocui.ModNone, editMsgBodyMenuUp)
+	g.SetKeybinding("editMenuMsg", gocui.KeyArrowDown, gocui.ModNone, editMsgBodyMenuDown)
 
 	g.SetKeybinding("editNumber", gocui.KeyEnter, gocui.ModNone, editMsgNumEnter)
 	g.SetKeybinding("ErrorMsg", gocui.KeyEnter, gocui.ModNone, exitError)

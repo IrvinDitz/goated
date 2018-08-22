@@ -27,6 +27,9 @@ func (f *FidoAddr) String() string {
 	if f.zone == 0 {
 		return ""
 	}
+	if f.point == 0 {
+		return strconv.Itoa(int(f.zone)) + ":" + strconv.Itoa(int(f.net)) + "/" + strconv.Itoa(int(f.node))
+	}
 	return strconv.Itoa(int(f.zone)) + ":" + strconv.Itoa(int(f.net)) + "/" + strconv.Itoa(int(f.node)) + "." + strconv.Itoa(int(f.point))
 }
 func (f *FidoAddr) FQDN() (string, error) {
@@ -84,10 +87,23 @@ func (f FidoAddr) MarshalYAML() (interface{}, error) {
 	return f.String(), nil
 }
 
-func (f *FidoAddr) getNode() uint16 {
+
+func (f *FidoAddr) GetZone() uint16 {
+	return f.zone
+}
+
+func (f *FidoAddr) GetNode() uint16 {
 	return f.node
 }
 
-func (f *FidoAddr) getNet() uint16 {
+func (f *FidoAddr) GetNet() uint16 {
 	return f.net
+}
+
+func (f *FidoAddr) GetPoint() uint16 {
+	return f.point
+}
+
+func (f *FidoAddr) SetPoint(p uint16) {
+	f.point = p
 }
